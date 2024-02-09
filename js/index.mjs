@@ -190,6 +190,7 @@ const addErrorEvent = (input, error, validationFunction) => {
 
     if (error.innerText !== '') {
       input.classList.add('red-border')
+      error.classList.add('red-error')
     } else {
       input.classList.remove('red-border')
     }
