@@ -20,23 +20,23 @@ This library project introduced me to the basics of object oriented programming 
 
 # Explanation of the code
 
-<img src="./docs-images/14.JPG">
+<img src="./docs-images/1JPG.JPG">
 The code is split into separate files to separate concerns.
 
 <h2>book.mjs</h2>
 
-<img src="./docs-images/1JPG.JPG">
+<img src="./docs-images/2.JPG">
 
 The function receives all the data it needs from its parameters to create a new book object.
 
 <h2>changeTheme.mjs</h2>
 
-<img src="./docs-images/2.JPG">
+<img src="./docs-images/3.JPG">
 
 The function receives an element and gets the value from its "theme" attribute. It then sets the attribute to the opposite of the previous value.
 
 <h2>domFunctions.mjs</h2>
-<img src="./docs-images/3.JPG">
+<img src="./docs-images/4.JPG">
 
 The first function is used to append items in group. It receives the parent node and an array of nodes to be appended to the parent node.
 
@@ -46,7 +46,7 @@ The function loops over the object and on each iteration adds a class named afte
 
 This is done for styling purposes.
 
-<img src="./docs-images/4.JPG">
+<img src="./docs-images/5.JPG">
 
 The following function takes an index to reference the card it needs to change and the library of books.
 
@@ -56,7 +56,7 @@ Lastly it executes the function that redisplays the cards on the browser.
 
 The next two functions are simply to add text to an element and to create DOM elements and assigning them a class with the same function.
 
-<img src="./docs-images/5.JPG">
+<img src="./docs-images/6.JPG">
 
 # Want to see it in action?
 
