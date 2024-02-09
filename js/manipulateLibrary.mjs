@@ -2,7 +2,7 @@ import { displayBooks, myLibrary } from './index.mjs'
 import { Book } from './book.mjs'
 
 const checkBookExistence = (title, library) => {
-  return library.some((book) => book.title === title)
+  return library.find((book) => book.title === title)
 }
 
 const addBooktoLibrary = (title, author, pages, isRead, library, displayBooks) => {
