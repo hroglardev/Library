@@ -1,11 +1,18 @@
 import { displayBooks, myLibrary } from './index.mjs'
 import { Book } from './book.mjs'
 
+const checkBookExistence = (title, library) => {
+  return library.some((book) => book.title === title)
+}
+
 const addBooktoLibrary = (title, author, pages, isRead, library, displayBooks) => {
-  let length = library.length
-  let book = new Book(title, author, pages, isRead, length)
-  library.push(book)
-  displayBooks()
+  let bookExists = checkBookExistence(title, library)
+  if (!bookExists) {
+    let length = library.length
+    let book = new Book(title, author, pages, isRead, length)
+    library.push(book)
+    displayBooks()
+  }
 }
 
 export const createBook = () => {
