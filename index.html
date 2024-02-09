@@ -4,17 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./css/styes.css" />
-    <script src="./js/index.js" defer></script>
+    <script type="module" src="./js/index.mjs" defer></script>
     <title>Library</title>
   </head>
   <body>
     <div class="container">
-      <header class="header">HEADER</header>
+      <header class="header">
+        <img class="logo" src="./public/movie-open.svg" width="50px" alt="" />
+        <h1>Movie Library</h1>
+        <img class="theme" src="./public/theme-light-dark.svg" alt="" width="30px" />
+      </header>
       <aside class="aside">
         <button class="new-book">Add book</button>
       </aside>
       <main class="main">
         <div class="card-container"></div>
+        <label for=""></label>
       </main>
     </div>
   </body>
