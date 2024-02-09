@@ -20,7 +20,7 @@ This library project introduced me to the basics of object oriented programming 
 
 # Want to see it in action?
 
-<a href="https://hroglardev.github.io/Library/">Click here</a>
+<a href="https://hroglardev.github.io/Library/" target="_blank">Click here</a>
 
 # Explanation of the code
 
