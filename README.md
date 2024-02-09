@@ -159,7 +159,7 @@ Then it retreives some elements from the dom and assigns the darkmode element an
 
 It also declares the displayBooks function that clears the the grid and iterates over the library.
 
-On each iterationm it creates a card passing the book, the index and the grid as elements.
+On each iteration it creates a card passing the book, the index and the grid as elements.
 
 Finally it calls the function for the initial cards to be displayed.
 
