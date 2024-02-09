@@ -1,6 +1,7 @@
 'use strict'
 
-import { validateInputs } from './validation.mjs'
+import { changeTheme } from './changeTheme.mjs'
+import { validateInput } from './validation.mjs'
 
 const myLibrary = []
 
@@ -12,6 +13,9 @@ myLibrary.push(book1, book2, book3)
 const gridOfBooks = document.querySelector('.card-container')
 const aside = document.querySelector('.aside')
 const newBook = document.querySelector('.new-book')
+
+const theme = document.querySelector('.theme')
+theme.addEventListener('click', () => changeTheme(document.querySelector(':root')))
 
 const model = {
   title: '',
@@ -31,11 +35,6 @@ const appendItems = (parent, ...children) => {
   children.forEach((child) => {
     parent.appendChild(child)
   })
-}
-const changeTheme = (rootElement) => {
-  const currentTheme = rootElement.getAttribute('theme')
-  const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
-  rootElement.setAttribute('theme', newTheme)
 }
 
 const addTextToCard = (bookElements, book) => {
@@ -117,6 +116,10 @@ const toggleIsRead = (index) => {
 
 let inputs = Array.from(document.querySelectorAll("input[type='text']"))
 
+const isFormValid = () => {
+  return inputs.every((inputElements) => !inputElements.classList.contains('red-border') && inputElements.value !== '')
+}
+
 const addForm = () => {
   if (document.querySelector('form')) {
     return
@@ -140,6 +143,8 @@ const addForm = () => {
 
       errorParagraph.classList.add(`error-${property}`)
       form.appendChild(errorParagraph)
+
+      addErrorEvent(input, errorParagraph, () => validateInput(input))
     }
     const div = document.createElement('div')
     const label = document.createElement('label')
@@ -157,6 +162,7 @@ const addForm = () => {
     input.type = 'checkbox'
     button.innerText = 'Create'
     button.type = 'submit'
+    button.setAttribute('disabled', true)
 
     inputs = Array.from(document.querySelectorAll("input[type='text']"))
 
@@ -164,37 +170,28 @@ const addForm = () => {
       event.preventDefault()
       createBook()
       form.reset()
+      button.setAttribute('disabled', true)
+    })
+
+    form.addEventListener('input', (_event) => {
+      let isValid = isFormValid()
+      if (isValid) {
+        button.removeAttribute('disabled')
+      }
     })
   }
 }
 
 newBook.addEventListener('click', addForm)
 
-const theme = document.querySelector('.theme')
-theme.addEventListener('click', () => changeTheme(document.querySelector(':root')))
+const addErrorEvent = (input, error, validationFunction) => {
+  input.addEventListener('input', (_event) => {
+    error.innerText = validationFunction()
 
-const displayErrors = (errors) => {
-  inputs.forEach((input) => {
-    const errorParagraph = document.querySelector(`.error-${input.id}`)
-    errorParagraph.classList.add('red-error')
-    errorParagraph.innerText = errorParagraph ? errors[input.id] : ''
+    if (error.innerText !== '') {
+      input.classList.add('red-border')
+    } else {
+      input.classList.remove('red-border')
+    }
   })
 }
-
-const addErrors = (inputs) => {
-  inputs.forEach((input) => {
-    input.addEventListener('input', (_event) => {
-      const inputValues = {
-        title: document.querySelector('#title').value,
-        author: document.querySelector('#author').value,
-        pages: document.querySelector('#pages').value
-      }
-      const errors = validateInputs(inputValues)
-      if (Object.keys(errors).length > 0) {
-        displayErrors(errors)
-      }
-    })
-  })
-}
-
-newBook.addEventListener('click', () => addErrors(inputs))
