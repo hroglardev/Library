@@ -56,26 +56,14 @@ const addBooktoLibrary = (title, author, pages, isRead, library) => {
 }
 
 const createBook = () => {
-  const inputValues = {
+  const book = {
     title: document.querySelector('#title').value,
     author: document.querySelector('#author').value,
-    pages: document.querySelector('#pages').value
+    pages: Number(document.querySelector('#pages').value),
+    'is-read': document.querySelector('#is-read').checked
   }
-  const errors = validateInputs(inputValues)
-  const hasErrors = Object.keys(errors).length
-  if (hasErrors === 0) {
-    const book = {
-      title: inputValues.title,
-      author: inputValues.author,
-      pages: Number(inputValues.pages),
-      'is-read': document.querySelector('#is-read').checked
-    }
-    addBooktoLibrary(book.title, book.author, book.pages, book['is-read'], myLibrary)
-  } else {
-    hasErrors.forEach((error) => {
-      const paragraphError = document.createElement('p')
-    })
-  }
+
+  addBooktoLibrary(book.title, book.author, book.pages, book['is-read'], myLibrary)
 }
 
 const displayBooks = () => {
@@ -127,6 +115,8 @@ const toggleIsRead = (index) => {
   displayBooks()
 }
 
+let inputs = Array.from(document.querySelectorAll("input[type='text']"))
+
 const addForm = () => {
   if (document.querySelector('form')) {
     return
@@ -136,6 +126,7 @@ const addForm = () => {
     for (const property in model) {
       const label = document.createElement('label')
       const input = document.createElement('input')
+      const errorParagraph = document.createElement('p')
 
       form.appendChild(label)
       form.appendChild(input)
@@ -143,23 +134,31 @@ const addForm = () => {
       label.innerText = `${property[0].toUpperCase()}${property.slice(1).toLowerCase().replace('-', ' ')}`
       label.setAttribute('for', property)
       input.id = property
+
       input.name = property
       input.type = 'text'
-    }
 
+      errorParagraph.classList.add(`error-${property}`)
+      form.appendChild(errorParagraph)
+    }
+    const div = document.createElement('div')
     const label = document.createElement('label')
     const input = document.createElement('input')
     const button = document.createElement('button')
-    form.appendChild(label)
-    form.appendChild(input)
+
+    form.appendChild(div)
+    div.appendChild(label)
+    div.appendChild(input)
     form.appendChild(button)
     label.setAttribute('for', 'is-read')
     label.innerText = 'Have you read it?'
     input.id = 'is-read'
     input.name = 'is-read'
     input.type = 'checkbox'
-    button.innerText = 'Submit'
+    button.innerText = 'Create'
     button.type = 'submit'
+
+    inputs = Array.from(document.querySelectorAll("input[type='text']"))
 
     form.addEventListener('submit', (event) => {
       event.preventDefault()
@@ -173,3 +172,29 @@ newBook.addEventListener('click', addForm)
 
 const theme = document.querySelector('.theme')
 theme.addEventListener('click', () => changeTheme(document.querySelector(':root')))
+
+const displayErrors = (errors) => {
+  inputs.forEach((input) => {
+    const errorParagraph = document.querySelector(`.error-${input.id}`)
+    errorParagraph.classList.add('red-error')
+    errorParagraph.innerText = errorParagraph ? errors[input.id] : ''
+  })
+}
+
+const addErrors = (inputs) => {
+  inputs.forEach((input) => {
+    input.addEventListener('input', (_event) => {
+      const inputValues = {
+        title: document.querySelector('#title').value,
+        author: document.querySelector('#author').value,
+        pages: document.querySelector('#pages').value
+      }
+      const errors = validateInputs(inputValues)
+      if (Object.keys(errors).length > 0) {
+        displayErrors(errors)
+      }
+    })
+  })
+}
+
+newBook.addEventListener('click', () => addErrors(inputs))

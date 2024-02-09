@@ -11,6 +11,8 @@ export const validateInputs = (inputValues) => {
 
   if (inputValues.pages.trim() === '') {
     errors.pages = 'Must complete the field'
+  } else if (isNaN(Number(inputValues.pages))) {
+    errors.pages = 'Must be a number'
   }
 
   return errors
