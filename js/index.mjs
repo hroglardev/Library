@@ -2,8 +2,10 @@
 
 import { changeTheme } from './changeTheme.mjs'
 import { validateInput } from './validation.mjs'
-import { Book, createBook, removeBook } from './book.mjs'
-import { appendItems, addTextToCard, addErrorEvent, isFormValid, toggleIsRead } from './helpers/helperFunctions.mjs'
+import { Book } from './book.mjs'
+import { createCard } from './domFunctions.mjs'
+import { createBook, removeBook } from './manipulateLibrary.mjs'
+import { isFormValid, addErrorEvent } from './formFunctions.mjs'
 
 export const myLibrary = []
 const model = {
@@ -20,45 +22,14 @@ myLibrary.push(book1, book2, book3)
 const theme = document.querySelector('.theme')
 const gridOfBooks = document.querySelector('.card-container')
 const aside = document.querySelector('.aside')
-const newBook = document.querySelector('.new-book')
+const openForm = document.querySelector('.new-book')
 let inputs = Array.from(document.querySelectorAll("input[type='text']"))
 
 theme.addEventListener('click', () => changeTheme(document.querySelector(':root')))
 
 export const displayBooks = () => {
   gridOfBooks.innerHTML = ''
-  myLibrary.forEach((book, index) => {
-    let card = document.createElement('article')
-    card.classList.add('card')
-    gridOfBooks.appendChild(card)
-
-    let bookElements = {
-      title: document.createElement('h3'),
-      author: document.createElement('p'),
-      pages: document.createElement('p'),
-      'is-read': document.createElement('p'),
-      div: document.createElement('div')
-    }
-
-    let buttons = {
-      remove: document.createElement('button'),
-      'toggle-read': document.createElement('button')
-    }
-
-    buttons.remove.innerText = 'Remove'
-    buttons['toggle-read'].innerText = 'Read or not'
-
-    addTextToCard(bookElements, book)
-    appendItems(card, bookElements.title, bookElements.author, bookElements.pages, bookElements['is-read'], bookElements.div)
-    appendItems(bookElements.div, buttons.remove, buttons['toggle-read'])
-
-    buttons.remove.addEventListener('click', () => {
-      removeBook(index, gridOfBooks, displayBooks)
-    })
-    buttons['toggle-read'].addEventListener('click', () => {
-      toggleIsRead(index, myLibrary, displayBooks)
-    })
-  })
+  myLibrary.forEach((book, index) => createCard(book, index, gridOfBooks))
 }
 
 displayBooks()
@@ -125,4 +96,4 @@ const addForm = () => {
   }
 }
 
-newBook.addEventListener('click', addForm)
+openForm.addEventListener('click', addForm)
