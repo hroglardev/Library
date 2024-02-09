@@ -26,8 +26,7 @@ export const createBook = () => {
   addBooktoLibrary(book.title, book.author, book.pages, book['is-read'], myLibrary, displayBooks)
 }
 
-export const removeBook = (index, gridOfBooks, displayBooks) => {
-  gridOfBooks.removeChild(gridOfBooks.children[index])
+export const removeBook = (index, displayBooks) => {
   myLibrary.splice(index, 1)
   displayBooks()
 }

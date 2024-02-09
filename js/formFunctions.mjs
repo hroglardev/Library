@@ -1,4 +1,4 @@
-import { createHtmlElement } from './domFunctions.mjs'
+import { appendItems, createHtmlElement } from './domFunctions.mjs'
 import { createBook } from './manipulateLibrary.mjs'
 import { validateInput } from './validation.mjs'
 
@@ -39,12 +39,11 @@ export const handleAllowSubmission = (button, inputs) => {
   }
 }
 
-export const createFormSection = (parentElement, propertyName, type) => {
+export const createFormSection = (formElement, propertyName, type) => {
   const label = createHtmlElement('label')
   const input = createHtmlElement('input')
 
-  parentElement.appendChild(label)
-  parentElement.appendChild(input)
+  appendItems(formElement, label, input)
 
   label.setAttribute('for', propertyName)
   label.innerText = 'Have you read it?'
@@ -56,7 +55,7 @@ export const createFormSection = (parentElement, propertyName, type) => {
   if (input.type === 'text') {
     label.innerText = `${propertyName[0].toUpperCase()}${propertyName.slice(1).toLowerCase().replace('-', ' ')}`
     const errorParagraph = createHtmlElement('p', `error${propertyName}`)
-    parentElement.appendChild(errorParagraph)
+    formElement.appendChild(errorParagraph)
     addErrorEvent(input, errorParagraph, () => validateInput(input))
   }
 }

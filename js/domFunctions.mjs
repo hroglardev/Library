@@ -57,6 +57,6 @@ export const createCard = (book, index, gridOfBooks) => {
   appendItems(card, cardElements.title, cardElements.author, cardElements.pages, cardElements['is-read'], cardElements.div)
   appendItems(cardElements.div, cardElements.remove, cardElements['toggle-read'])
 
-  cardElements.remove.addEventListener('click', () => removeBook(index, gridOfBooks, displayBooks))
+  cardElements.remove.addEventListener('click', () => removeBook(index, displayBooks))
   cardElements['toggle-read'].addEventListener('click', () => toggleIsRead(index, myLibrary))
 }
