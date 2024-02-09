@@ -2,6 +2,8 @@
 
 import { changeTheme } from './changeTheme.mjs'
 import { validateInput } from './validation.mjs'
+import { Book } from './book.mjs'
+import { appendItems } from './helpers/appendItems.mjs'
 
 const myLibrary = []
 
@@ -21,20 +23,6 @@ const model = {
   title: '',
   author: '',
   pages: 0
-}
-
-function Book(title, author, pages, isRead, position) {
-  this.title = title
-  this.author = author
-  this.pages = pages
-  this['is-read'] = isRead ? 'Read' : 'Not read'
-  this.index = position
-  this.info = () => `${this.title} by ${this.author}, ${this.pages}, ${this['is-read']}`
-}
-const appendItems = (parent, ...children) => {
-  children.forEach((child) => {
-    parent.appendChild(child)
-  })
 }
 
 const addTextToCard = (bookElements, book) => {
