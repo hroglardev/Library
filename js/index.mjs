@@ -3,7 +3,7 @@
 import { changeTheme } from './changeTheme.mjs'
 import { validateInput } from './validation.mjs'
 import { Book } from './book.mjs'
-import { appendItems } from './helpers/appendItems.mjs'
+import { appendItems, addTextToCard, addErrorEvent } from './helpers/helperFunctions.mjs'
 
 const myLibrary = []
 
@@ -25,16 +25,6 @@ const model = {
   pages: 0
 }
 
-const addTextToCard = (bookElements, book) => {
-  for (const property in bookElements) {
-    if (bookElements[property].nodeName !== 'DIV') {
-      bookElements[property].classList.add(property)
-      bookElements[property].innerText = `${property[0].toUpperCase()}${property.slice(1).toLowerCase().replace('-', ' ')}: ${book[property]}`
-    } else {
-      bookElements[property].classList.add(`buttons-${property}`)
-    }
-  }
-}
 const addBooktoLibrary = (title, author, pages, isRead, library) => {
   let length = library.length
   let book = new Book(title, author, pages, isRead, length)
@@ -171,16 +161,3 @@ const addForm = () => {
 }
 
 newBook.addEventListener('click', addForm)
-
-const addErrorEvent = (input, error, validationFunction) => {
-  input.addEventListener('input', (_event) => {
-    error.innerText = validationFunction()
-
-    if (error.innerText !== '') {
-      input.classList.add('red-border')
-      error.classList.add('red-error')
-    } else {
-      input.classList.remove('red-border')
-    }
-  })
-}
