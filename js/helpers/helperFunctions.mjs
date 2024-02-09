@@ -27,3 +27,12 @@ export const addErrorEvent = (input, error, validationFunction) => {
     }
   })
 }
+
+export const isFormValid = (inputs) => {
+  return inputs.every((inputElements) => !inputElements.classList.contains('red-border') && inputElements.value !== '')
+}
+
+export const toggleIsRead = (index, library, displayBooks) => {
+  library[index]['is-read'] = library[index]['is-read'] === 'Read' ? 'Not read' : 'Read'
+  displayBooks()
+}

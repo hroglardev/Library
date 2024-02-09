@@ -2,48 +2,30 @@
 
 import { changeTheme } from './changeTheme.mjs'
 import { validateInput } from './validation.mjs'
-import { Book } from './book.mjs'
-import { appendItems, addTextToCard, addErrorEvent } from './helpers/helperFunctions.mjs'
+import { Book, createBook, removeBook } from './book.mjs'
+import { appendItems, addTextToCard, addErrorEvent, isFormValid, toggleIsRead } from './helpers/helperFunctions.mjs'
 
-const myLibrary = []
-
-const book1 = new Book('The Great Gatsby', 'F. Scott Fitzgerald', 180, 'Read', 0)
-const book2 = new Book('To Kill a Mockingbird', 'Harper Lee', 320, 'Read', 1)
-const book3 = new Book('1984', 'George Orwell', 250, 'Read', 2)
-myLibrary.push(book1, book2, book3)
-
-const gridOfBooks = document.querySelector('.card-container')
-const aside = document.querySelector('.aside')
-const newBook = document.querySelector('.new-book')
-
-const theme = document.querySelector('.theme')
-theme.addEventListener('click', () => changeTheme(document.querySelector(':root')))
-
+export const myLibrary = []
 const model = {
   title: '',
   author: '',
   pages: 0
 }
 
-const addBooktoLibrary = (title, author, pages, isRead, library) => {
-  let length = library.length
-  let book = new Book(title, author, pages, isRead, length)
-  library.push(book)
-  displayBooks()
-}
+const book1 = new Book('The Great Gatsby', 'F. Scott Fitzgerald', 180, 'Read', 0)
+const book2 = new Book('To Kill a Mockingbird', 'Harper Lee', 320, 'Read', 1)
+const book3 = new Book('1984', 'George Orwell', 250, 'Read', 2)
+myLibrary.push(book1, book2, book3)
 
-const createBook = () => {
-  const book = {
-    title: document.querySelector('#title').value,
-    author: document.querySelector('#author').value,
-    pages: Number(document.querySelector('#pages').value),
-    'is-read': document.querySelector('#is-read').checked
-  }
+const theme = document.querySelector('.theme')
+const gridOfBooks = document.querySelector('.card-container')
+const aside = document.querySelector('.aside')
+const newBook = document.querySelector('.new-book')
+let inputs = Array.from(document.querySelectorAll("input[type='text']"))
 
-  addBooktoLibrary(book.title, book.author, book.pages, book['is-read'], myLibrary)
-}
+theme.addEventListener('click', () => changeTheme(document.querySelector(':root')))
 
-const displayBooks = () => {
+export const displayBooks = () => {
   gridOfBooks.innerHTML = ''
   myLibrary.forEach((book, index) => {
     let card = document.createElement('article')
@@ -71,32 +53,15 @@ const displayBooks = () => {
     appendItems(bookElements.div, buttons.remove, buttons['toggle-read'])
 
     buttons.remove.addEventListener('click', () => {
-      removeBook(index)
+      removeBook(index, gridOfBooks, displayBooks)
     })
     buttons['toggle-read'].addEventListener('click', () => {
-      toggleIsRead(index)
+      toggleIsRead(index, myLibrary, displayBooks)
     })
   })
 }
 
 displayBooks()
-
-const removeBook = (index) => {
-  gridOfBooks.removeChild(gridOfBooks.children[index])
-  myLibrary.splice(index, 1)
-  displayBooks()
-}
-
-const toggleIsRead = (index) => {
-  myLibrary[index]['is-read'] = myLibrary[index]['is-read'] === 'Read' ? 'Not read' : 'Read'
-  displayBooks()
-}
-
-let inputs = Array.from(document.querySelectorAll("input[type='text']"))
-
-const isFormValid = () => {
-  return inputs.every((inputElements) => !inputElements.classList.contains('red-border') && inputElements.value !== '')
-}
 
 const addForm = () => {
   if (document.querySelector('form')) {
@@ -152,7 +117,7 @@ const addForm = () => {
     })
 
     form.addEventListener('input', (_event) => {
-      let isValid = isFormValid()
+      let isValid = isFormValid(inputs)
       if (isValid) {
         button.removeAttribute('disabled')
       }
